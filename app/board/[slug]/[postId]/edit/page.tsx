@@ -21,7 +21,7 @@ export default async function Board({
   return (
     <main className="bg-white min-w-full min-h-full pb-12">
       <div className="min-w-full bg-[#190D87] h-36 flex flex-col justify-center text-[3rem] pl-5 sm:pl-36my-1">
-        <span className="text-white">{board?.attributes?.name}</span>
+        <span className="text-white">{board?.name}</span>
       </div>
 
       <div className="container mx-auto">
