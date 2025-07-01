@@ -75,7 +75,7 @@ export const PostsContainer = (props: Props) => {
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               你是否确认删除以下帖子? <br />
-              <b>{post?.attributes.title}</b>
+              <b>{post?.title}</b>
             </p>
           </div>
         </Modal.Body>
@@ -96,7 +96,7 @@ export const PostsContainer = (props: Props) => {
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               确认刷新以下帖子? (刷新后重新置顶) <br />
-              <b>{post?.attributes.title}</b>
+              <b>{post?.title}</b>
             </p>
           </div>
         </Modal.Body>
@@ -124,8 +124,8 @@ export const PostsContainer = (props: Props) => {
             </thead>
             <tbody>
               {posts.map((post) => {
-                const board = post.attributes.board.data?.attributes.slug;
-                var date = dayjs(post.attributes.refreshedAt);
+                const board = post.board.slug;
+                var date = dayjs(post.refreshedAt);
                 var nextRefreshDate = date.add(1, "day").startOf("date");
                 const showRefresh =
                   !date.isValid() || nextRefreshDate.isBefore(dayjs());
@@ -137,11 +137,11 @@ export const PostsContainer = (props: Props) => {
                       })}
                     >
                       <Link href={`/board/${board}/${post.id}/edit`}>
-                        {post.attributes.title}
+                        {post.title}
                       </Link>
                     </td>
                     <td className="w-28">
-                      {dayjs(post.attributes.refreshedAt).format("YYYY-MM-DD")}
+                      {dayjs(post.refreshedAt).format("YYYY-MM-DD")}
                     </td>
                     <td className="w-20">
                       {showRefresh && (

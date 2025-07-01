@@ -1,16 +1,13 @@
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withBundleAnalyzer({
-  i18n: {
-    locales: ["en-US"],
-    defaultLocale: "en-US",
-  },
+const nextConfig = {
+  // i18n: {
+  //   locales: ["en-US"],
+  //   defaultLocale: "en-US",
+  // },
   experimental: {
     isrMemoryCacheSize: process.env.NODE_ENV === "production" ? 500_000_000 : 0,
   },
+  output: 'export',
   images: {
     unoptimized: true,
     domains: [
@@ -21,6 +18,14 @@ const nextConfig = withBundleAnalyzer({
       "ochuaren-production.s3.amazonaws.com",
     ],
   },
-});
+  //   async rewrites() {
+  //   return [
+  //     {
+  //       source: "/uploads/:path*",
+  //       destination: "https://seal-app-tqbmk.ondigitalocean.app/uploads/:path*",
+  //     },
+  //   ];
+  // },
+};
 
 module.exports = nextConfig;

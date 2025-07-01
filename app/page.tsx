@@ -5,43 +5,31 @@ import { IListing } from "../infra/api/strapi/models/listing";
 import Link from "next/link";
 import { AboutUs } from "@/components/about-us";
 import { Footer } from "@/components/footer";
-import {
-  BsBrowserEdge,
-  BsChatTextFill,
-  BsFilePersonFill,
-  BsFillBriefcaseFill,
-  BsFillCartDashFill,
-  BsFillHouseAddFill,
-} from "react-icons/bs";
 import { IPost } from "@/infra/api/strapi/models/post";
-import Markdown from 'react-markdown'
+import Markdown from "react-markdown";
 import { useState } from "react";
 import { TabBar } from "@/components/tabbar";
 import { Posts } from "@/components/posts";
 
 export const metadata = {
-  title: "OC信息中心-专属Orange County地区综合分类平台",
+  title: "OC华人生活圈-专属Orange County本地华人的生活圈",
 };
 
-const Listings = ({
-  listings
-}: {
-  listings: IListing[];
-}) => {
+const Listings = ({ listings }: { listings: IListing[] }) => {
   return (
     <div className="mx-auto relative">
       <div className="bg-[#DDF5FF]">
         <div className="w-full flex flex-col sm:justify-evenly">
           <div className="grid grid-cols-3">
-            {
-              listings.map(listing => {
-                return <Link key={listing.id} href={`/board/${listing.slug}`}>
-                <div className="h-[35px] sm:h-[64px] md:h-[80px] border border-[#e46e28] bg-[#fe7f22] flex justify-center items-center text-white py-[0.3rem] text-[14px] sm:text-md xl:text-2xl">
-                  {listing.name}
-                </div>
-              </Link>;
-              })
-            }
+            {listings.map((listing) => {
+              return (
+                <Link key={listing.id} href={`/board/${listing.slug}`}>
+                  <div className="h-[35px] sm:h-[64px] md:h-[80px] border border-[#e46e28] bg-[#fe7f22] flex justify-center items-center text-white py-[0.3rem] text-[14px] sm:text-md xl:text-2xl">
+                    {listing.name}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -108,7 +96,7 @@ export default async function Home({
     <>
       <div className="mx-auto rounded-lg min-w-full relative">
         <Image
-          src={'http://localhost:1337' + heroes[0].url}
+          src={heroes[0].url}
           alt={heroes[0].alternativeText}
           // fill={true}
           width={heroes[0].width}
@@ -127,7 +115,9 @@ export default async function Home({
       <TabBar productsHeading={productsHeading} products={products} />
 
       <div className="my-5">
-        <Markdown className="flex flex-col items-center mb-5">{galleryHeading}</Markdown>
+        <Markdown className="flex flex-col items-center mb-5">
+          {galleryHeading}
+        </Markdown>
         <div
           id="gallery1"
           className="mx-auto grid grid-cols-2 lg:grid-cols-3 items-stretch gap-2 my-2"
@@ -137,7 +127,7 @@ export default async function Home({
               {g && (
                 <Link href={g.caption ?? ""} target="_blank">
                   <Image
-                    src={'http://localhost:1337' + g.url}
+                    src={g.url}
                     alt={g.alternativeText}
                     width={g.width}
                     height={g.height}
@@ -150,7 +140,9 @@ export default async function Home({
       </div>
 
       <div className="mt-5">
-        <Markdown className="flex flex-col items-center mb-5">{gallery2Heading}</Markdown>
+        <Markdown className="flex flex-col items-center mb-5">
+          {gallery2Heading}
+        </Markdown>
         <div className="mx-auto grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 text-center rounded-lg">
           {gallery2?.map((g) => (
             <div
@@ -159,11 +151,7 @@ export default async function Home({
             >
               {g && (
                 <Link href={g.caption ?? ""}>
-                  <Image
-                    src={'http://localhost:1337' + g.url}
-                    alt={g.alternativeText}
-                    fill={true}
-                  />
+                  <Image src={g.url} alt={g.alternativeText} fill={true} />
                 </Link>
               )}
             </div>
@@ -174,7 +162,7 @@ export default async function Home({
       <div>
         {bottomPhoto && (
           <Image
-            src={'http://localhost:1337' + bottomPhoto.url}
+            src={bottomPhoto.url}
             alt={bottomPhoto.alternativeText}
             className="w-full h-auto"
             width={0}
@@ -188,7 +176,7 @@ export default async function Home({
       <div>
         {contactPhoto && (
           <Image
-            src={'http://localhost:1337' + contactPhoto.url}
+            src={contactPhoto.url}
             alt={contactPhoto.alternativeText}
             className="w-full h-auto"
             width={0}
@@ -213,8 +201,7 @@ export default async function Home({
         )}
       </div> */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch gap-5 my-2">
-
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch gap-5">
         {/* <div className="rounded-lg bg-[#DDF5FF] h-full">
           <div className="min-w-full bg-[rgb(165,223,248)] p-1 text-center">
             OC地区/新闻资讯
@@ -267,7 +254,6 @@ export default async function Home({
         ))}
       </div> */}
 
-  
       {/* <div className="mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 text-center rounded-lg">
         {gallery3?.map((g) => (
           <div

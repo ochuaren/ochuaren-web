@@ -53,7 +53,7 @@ export const CommentBox = ({ post, canReply, isLoggedIn }: Props) => {
             <div className="p-2 bold border w-24 mt-5 font-roboto font-light bg-sky-100 text-center">
               <span>评论内容</span>
             </div>
-            {post.attributes.comments.data.map((comment) => (
+            {post.comments.map((comment) => (
               <div className="flex flex-row mb-5 py-5" key={comment.id}>
                 <div className="w-12 h-12 border shadow flex justify-center items-center">
                   <BsEmojiNeutral size="36px" color="000000" />

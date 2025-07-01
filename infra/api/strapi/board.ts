@@ -8,8 +8,14 @@ import * as Models from "@/infra/api/strapi/models";
 const getBoard = async (slug: string) => {
   return await axiosInstance.get<
     IStrapiCollectionTypeResponse<Models.Board.IBoard>
-  >(`/api/boards?filters[slug][$eq]=${slug}`);
+  >(`/api/boards?filters[slug][$eq]=${slug}&populate=*`);
 };
+
+const getBoards = async () => {
+  return await axiosInstance.get<
+    IStrapiCollectionTypeResponse<Models.Board.IBoard>
+  >(`/api/boards?populate=*`);
+}
 
 export const getAdvertisements = async () => {
   return await axiosInstance.get<
@@ -20,4 +26,5 @@ export const getAdvertisements = async () => {
 export const Board = {
   getBoard,
   getAdvertisements,
+  getBoards
 };

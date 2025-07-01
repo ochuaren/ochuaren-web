@@ -38,3 +38,7 @@
   z-index: 9999 !important;
   color: black !important;
 }
+
+ul {
+  list-style-type: disc;
+}

@@ -1,9 +1,5 @@
-import { CommentBox } from "@/components/comment-box";
 import { Gallery } from "@/components/gallery";
 import { StrapiApi } from "@/infra/api/strapi";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { strapiConfig } from "@/config/strapi";
 import dayjs from "dayjs";
 import Link from "next/link";
 
@@ -15,9 +11,21 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
+export async function generateStaticParams() {
+  const {
+    data: { data: posts },
+  } = await StrapiApi.Post.getPosts({ limit: 1000 });
+  return posts
+    .filter((x) => x.board)
+    .map((post) => ({
+      postId: post.documentId,
+      slug: post.board.slug,
+    }));
+}
+
 export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  { params }: Props,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const previousImages = (await parent).openGraph?.images || [];
   const {
@@ -34,13 +42,12 @@ export async function generateMetadata(
       title: post.title,
     },
     alternates: {
-      canonical: `/board/${params.slug}/${params.postId}`
-    }
+      canonical: `/board/${params.slug}/${params.postId}`,
+    },
   };
 }
 
 export default async function Post({ params: { postId, slug } }: Props) {
-  const session = await getServerSession(authOptions);
   const {
     data: { data: boards },
   } = await StrapiApi.Board.getBoard(slug);
@@ -49,10 +56,7 @@ export default async function Post({ params: { postId, slug } }: Props) {
     data: { data: post },
   } = await StrapiApi.Post.getPostById(postId);
 
-  const content = post.content.replaceAll(
-    /\/uploads\//g,
-    strapiConfig.apiUrl + "/uploads/"
-  );
+  const content = post.content;
   const postDate = dayjs(post.refreshedAt);
 
   const renderAttribute = ({
@@ -83,9 +87,7 @@ export default async function Post({ params: { postId, slug } }: Props) {
       <div className="min-w-full bg-[#07a0a0] h-20 flex flex-col justify-center text-[2rem] sm:text-[2rem] pl-5 sm:pl-6 my-1">
         <span className="text-white">
           {!board.disallowGoBack ? (
-            <Link href={`/board/${board.slug}`}>
-              {board.name}
-            </Link>
+            <Link href={`/board/${board.slug}`}>{board.name}</Link>
           ) : (
             board.name
           )}
@@ -110,9 +112,7 @@ export default async function Post({ params: { postId, slug } }: Props) {
                   name: "地址",
                   value: post.address,
                   renderValue: (
-                    <a
-                      href={`http://maps.google.com/?q=${post.address}`}
-                    >
+                    <a href={`http://maps.google.com/?q=${post.address}`}>
                       {post.address}
                     </a>
                   ),
@@ -129,9 +129,7 @@ export default async function Post({ params: { postId, slug } }: Props) {
                   name: "联系电话",
                   value: post.contactPhone,
                   renderValue: (
-                    <a href={`tel:${post.contactPhone}`}>
-                      {post.contactPhone}
-                    </a>
+                    <a href={`tel:${post.contactPhone}`}>{post.contactPhone}</a>
                   ),
                 })}
               {!board.hideEmail &&
@@ -166,14 +164,9 @@ export default async function Post({ params: { postId, slug } }: Props) {
           <span>帖子内容</span>
         </div> */}
         <p dangerouslySetInnerHTML={{ __html: content }}></p>
-        <CommentBox
-          post={post}
-          canReply={board.canReply}
-          isLoggedIn={session != null}
-        ></CommentBox>
         {!board.hideDisclaimer && (
           <div className="border p-3 mt-12 rounded bg-[#fffaf0] text-[#bebdbd] text-xs">
-            免责声明：本站内容由互联网用户自发贡献，平台只负责展示，请自辨真伪，本站不承担相关法律责任。如有涉及侵犯版权，请联系我们提供书面反馈，我们核实后会立即删除。
+            免责声明：本站内容来源于用户分享或公开网络资源，平台仅展示。请谨慎辨别，平台不承担任何法律责任。如涉及版权问题，请联系我们删除。
           </div>
         )}
       </div>

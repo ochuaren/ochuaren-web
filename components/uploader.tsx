@@ -52,7 +52,7 @@ export const Uploader = <T extends FieldValues>(
             .filter((x) => x.source === "Dashboard")
             .forEach((file) => {
               var matchFile = uploadedFiles.find(
-                (x: IMedia["attributes"]) => x.name === file.name
+                (x: IMedia) => x.name === file.name
               );
               if (matchFile) {
                 uppy.setFileMeta(file.id, {
@@ -68,10 +68,10 @@ export const Uploader = <T extends FieldValues>(
 
     Promise.all(
       field.value?.map(async (file: IMedia) => {
-        const result = await fetch(file.attributes.url);
+        const result = await fetch(file.url);
         const id = uppy.addFile({
-          name: file.attributes.name,
-          type: file.attributes.mime,
+          name: file.name,
+          type: file.mime,
           data: await result.blob(),
           source: "url",
           meta: {

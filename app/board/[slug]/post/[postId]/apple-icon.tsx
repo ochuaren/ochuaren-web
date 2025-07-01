@@ -11,9 +11,9 @@ export const size = {
 export const contentType = "image/png";
 
 const icons: Record<string, string> = {
-  activities: "activities2.png",
+  'ben-di-huo-dong': "activities4.png",
   "qing-gan-wen-da": "qing-gan-wen-da.png",
-  news: "news4.png",
+  'xin-wen-kuai-xun': "news6.png",
   "gong-zuo-zhao-pin": "jobs2.png",
   "shang-pin-mai-mai": "buy-sell2.png",
   shops: "shops4.png",
@@ -67,7 +67,7 @@ export default function Icon({ params }: Props) {
           style={{
             fontSize: 24,
             background: "black",
-            backgroundImage: `url(https://www.ochuaren.com/apple-icon.png)`,
+            backgroundImage: `url(https://www.v.com/apple-icon.png)`,
             width: "100%",
             height: "100%",
             display: "flex",

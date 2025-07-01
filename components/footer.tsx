@@ -77,10 +77,10 @@ export const Footer = ({ qrcode }: { qrcode?: IMedia }) => {
             <div className="w-24">
               {qrcode && (
                 <Image
-                  src={qrcode.attributes.url}
+                  src={qrcode.url}
                   alt="qr code"
-                  width={qrcode.attributes.width}
-                  height={qrcode.attributes.height}
+                  width={qrcode.width}
+                  height={qrcode.height}
                 />
               )}
             </div>

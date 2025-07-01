@@ -43,10 +43,10 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
   } = useForm<PostInputs>({
     defaultValues: initialData
       ? {
-          ...initialData.attributes,
-          board: initialData.attributes.board?.data?.id,
-          author: initialData.attributes.author?.data.id,
-          attachments: initialData?.attributes?.attachments.data,
+          ...initialData,
+          board: initialData.board?.id,
+          author: initialData.author?.data.id,
+          attachments: initialData?.attachments,
         }
       : { refreshedAt: new Date().toISOString(), featured: false },
   });
@@ -91,7 +91,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
         <Uploader control={control} name="attachments" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        {!board?.attributes.hidePricing && (
+        {!board?.hidePricing && (
           <div className="flex items-center">
             <span className="w-28">价格</span>
             <TextInput
@@ -102,7 +102,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             />
           </div>
         )}
-        {!board?.attributes.hidePhone && (
+        {!board?.hidePhone && (
           <div className="flex items-center">
             <span className="w-28">联系人电话</span>
             <TextInput
@@ -113,7 +113,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             />
           </div>
         )}
-        {!board?.attributes.hideCategory && (
+        {!board?.hideCategory && (
           <div className="flex items-center">
             <span className="w-28">分类</span>
             <Select className="w-1/2" {...register("category")}>
@@ -123,7 +123,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             </Select>
           </div>
         )}
-        {!board?.attributes.hideWechat && (
+        {!board?.hideWechat && (
           <div className="flex items-center">
             <span className="w-28">联系人微信</span>
             <TextInput
@@ -134,7 +134,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             />
           </div>
         )}
-        {!board?.attributes.hideCity && (
+        {!board?.hideCity && (
           <div className="flex items-center">
             <span className="w-28">*城市</span>
             <Select
@@ -182,7 +182,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             </Select>
           </div>
         )}
-        {!board?.attributes.hideAddress && (
+        {!board?.hideAddress && (
           <div className="flex items-center">
             <span className="w-28">地址</span>
             <TextInput
@@ -193,7 +193,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             />
           </div>
         )}
-        {!board?.attributes.hideEmail && (
+        {!board?.hideEmail && (
           <div className="flex items-center">
             <span className="w-28">联系人邮箱</span>
             <TextInput
@@ -204,7 +204,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
             />
           </div>
         )}
-        {!board?.attributes.hideWebsiteUrl && (
+        {!board?.hideWebsiteUrl && (
           <div className="flex items-center">
             <span className="w-28">官方网站</span>
             <TextInput
@@ -224,7 +224,7 @@ export const PostForm = ({ board, initialData, userId }: IPostForm) => {
         >
           {initialData?.id
             ? "更新内容"
-            : board.attributes.requiredApproval
+            : board.requiredApproval
             ? "提交审核"
             : "立即发布"}
         </Button>

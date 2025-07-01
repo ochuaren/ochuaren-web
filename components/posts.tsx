@@ -9,7 +9,7 @@ export const Posts = ({ posts }: { posts: IPost[] }) => {
         <li className="relative" key={post.id}>
           <div className="w-full text-md">
             <Link
-              href={`/board/${post.board.slug}/${post.documentId}`}
+              href={`/board/${post.board.slug}/post/${post.documentId}`}
               className="text-[#282727] no-underline"
               target="_blank"
             >
@@ -17,7 +17,9 @@ export const Posts = ({ posts }: { posts: IPost[] }) => {
                 <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                   {post.title}
                 </div>
-                <span className="ml-8 text-[#c1bebe]">{dayjs(post.refreshedAt).format('MM-DD')}</span>
+                <div className="ml-8 text-[#c1bebe] min-w-[45px]">
+                  {dayjs(post.refreshedAt).format("MM-DD")}
+                </div>
               </div>
             </Link>
           </div>

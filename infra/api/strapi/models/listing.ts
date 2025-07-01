@@ -32,4 +32,5 @@ export interface IListing extends IContentType {
   thumbnail: {
     data: IMedia;
   };
+  sort: object;
 }

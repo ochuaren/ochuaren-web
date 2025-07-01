@@ -13,7 +13,7 @@ export const Gallery = ({ photos }: Props) => {
       <Carousel>
         {photos?.map((photo) => (
           <Image
-            src={'http://localhost:1337' + photo.url}
+            src={photo.url}
             key={photo.id}
             style={{
               width: "auto",

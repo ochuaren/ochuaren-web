@@ -1,4 +1,5 @@
 import { IContentType } from "./content-type";
+import { IMedia } from "./listing";
 
 export interface IBoard extends IContentType {
     name: string;
@@ -19,4 +20,5 @@ export interface IBoard extends IContentType {
     requiredApproval: boolean;
     canPost: boolean;
     sort: object;
+    icon: IMedia;
 }
