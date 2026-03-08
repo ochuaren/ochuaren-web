@@ -13,8 +13,23 @@ type Props = {
 
 export async function generateStaticParams() {
   const {
-    data: { data: posts },
+    data: { data: posts, meta },
   } = await StrapiApi.Post.getPosts({ limit: 1000 });
+  // if there are more results than the limit, we can fetch all posts by pagination
+  if (meta.pagination.total > meta.pagination.pageSize) {
+    const totalPages = meta.pagination.pageCount;
+    const pageSize = meta.pagination.pageSize;
+    const fetches = [];
+    for (let page = 2; page <= totalPages; page++) {
+      fetches.push(
+        StrapiApi.Post.getPosts({ limit: pageSize, page }).then(
+          (res) => res.data.data,
+        ),
+      );
+    }
+    const additionalPosts = await Promise.all(fetches);
+    posts.push(...additionalPosts.flat());
+  }
   return posts
     .filter((x) => x.board)
     .map((post) => ({

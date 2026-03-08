@@ -18,9 +18,9 @@ const getPosts = async (params: {
   >("/api/posts", {
     params: {
       filters: {
-        board: {
+        board: params.boardSlug ? {
           slug: params.boardSlug,
-        },
+        } : undefined,
         author: params.userId,
         ...(params.approved ? { approved: params.approved } : {}),
       },
