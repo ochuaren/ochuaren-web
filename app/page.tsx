@@ -73,6 +73,23 @@ export default async function Home({
   const listings = homePage.listings;
   const productsHeading = homePage.productsHeading;
   const products = homePage.products;
+  // Preload posts for all products at build time so the static export contains them.
+  const allPosts: Record<string, IPost[]> = {};
+  for (const p of products) {
+    try {
+      const {
+        data: { data: postsData },
+      } = await StrapiApi.Post.getPosts({
+        boardSlug: p.slug,
+        limit: 17,
+        sort: p.sort,
+      });
+      allPosts[p.slug] = postsData || [];
+    } catch (e) {
+      allPosts[p.slug] = [];
+      console.error(e);
+    }
+  }
   const gallery = homePage.gallery;
   const galleryHeading = homePage.galleryHeading;
   const gallery2 = homePage.gallery2;
@@ -112,7 +129,11 @@ export default async function Home({
       </div>
 
       <Listings listings={listings}></Listings>
-      <TabBar productsHeading={productsHeading} products={products} />
+      <TabBar
+        productsHeading={productsHeading}
+        products={products}
+        allPosts={allPosts}
+      />
 
       <div className="my-5">
         <Markdown className="flex flex-col items-center mb-5">
