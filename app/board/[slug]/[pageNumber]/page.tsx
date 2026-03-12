@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const previousImages = (await parent).openGraph?.images || [];
   const {
@@ -31,6 +31,13 @@ export async function generateMetadata(
 
   return {
     title: board.name,
+    icons: [
+      {
+        rel: "apple-touch-icon",
+        url: board.icon.formats.thumbnail.url,
+        sizes: "192x192",
+      },
+    ],
     openGraph: {
       title: board.name,
       images: previousImages,
@@ -100,7 +107,7 @@ export default async function Board({
                         "w-24 h-24 border shadow mr-3 overflow-hidden",
                         {
                           "bg-[#DDF5FF]": !post.attachments,
-                        }
+                        },
                       )}
                     >
                       {post.attachments && (

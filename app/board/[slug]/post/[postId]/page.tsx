@@ -46,9 +46,19 @@ export async function generateMetadata(
   const {
     data: { data: post },
   } = await StrapiApi.Post.getPostById(params.postId);
-
+  const {
+    data: { data: boards },
+  } = await StrapiApi.Board.getBoard(params.slug);
+  const [board] = boards;
   return {
     title: post.title,
+    icons: [
+      {
+        rel: "apple-touch-icon",
+        url: board.icon.formats.thumbnail.url,
+        sizes: "192x192",
+      },
+    ],
     openGraph: {
       title: post.title,
       images: previousImages,
